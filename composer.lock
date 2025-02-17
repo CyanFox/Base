@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86fbbcd66e05cfcc2988c3f310a775ab",
+    "content-hash": "1f8b5fd5b5abefdaae7ee29417750f2c",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7622,35 +7622,38 @@
         },
         {
             "name": "tallstackui/tallstackui",
-            "version": "v1.37.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tallstackui/tallstackui.git",
-                "reference": "96a04d658a9069bd3ce7119a21b9bdb8da6f271b"
+                "reference": "48953c4c2536feaf895b340aedc962389c3fe0c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tallstackui/tallstackui/zipball/96a04d658a9069bd3ce7119a21b9bdb8da6f271b",
-                "reference": "96a04d658a9069bd3ce7119a21b9bdb8da6f271b",
+                "url": "https://api.github.com/repos/tallstackui/tallstackui/zipball/48953c4c2536feaf895b340aedc962389c3fe0c5",
+                "reference": "48953c4c2536feaf895b340aedc962389c3fe0c5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^10.0|^11.0",
-                "illuminate/contracts": "^10.0|^11.0",
-                "illuminate/pagination": "^10.0|^11.0",
-                "illuminate/support": "^10.0|^11.0",
-                "illuminate/view": "^10.0|^11.0",
+                "ext-zip": "*",
+                "illuminate/console": "^10.0|^11.0|^12.0",
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "illuminate/pagination": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "illuminate/view": "^10.0|^11.0|^12.0",
                 "livewire/livewire": "^3.4.9",
                 "php": "^8.1"
             },
             "require-dev": {
+                "blade-ui-kit/blade-icons": "^1.7",
                 "larastan/larastan": "^2.7",
                 "laravel/pint": "^1.13",
-                "orchestra/testbench": "^8.0|^9.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
                 "orchestra/testbench-dusk": "^8.0|^9.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-type-coverage": "^2.2",
-                "rector/rector": "^1.0"
+                "pestphp/pest": "^2.0|^3.7",
+                "pestphp/pest-plugin-type-coverage": "^2.2|^3.3",
+                "rector/rector": "^1.0|^2.0",
+                "spatie/ray": "^1.41"
             },
             "type": "library",
             "extra": {
@@ -7664,6 +7667,9 @@
                 }
             },
             "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
                 "psr-4": {
                     "TallStackUi\\": "src/"
                 }
@@ -7681,7 +7687,7 @@
             "description": "TallStackUI is a powerful suite of Blade components that elevate your workflow of Livewire applications.",
             "support": {
                 "issues": "https://github.com/tallstackui/tallstackui/issues",
-                "source": "https://github.com/tallstackui/tallstackui/tree/v1.37.1"
+                "source": "https://github.com/tallstackui/tallstackui/tree/v2.0.0"
             },
             "funding": [
                 {
@@ -7689,7 +7695,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-16T14:20:35+00:00"
+            "time": "2025-02-17T02:27:30+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
