@@ -26,7 +26,7 @@
         "openspout/openspout": "^4.24",
         "power-components/livewire-powergrid": "^5.7",
         "spatie/laravel-permission": "^6.7",
-        "tallstackui/tallstackui": "^1.27"
+        "tallstackui/tallstackui": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
