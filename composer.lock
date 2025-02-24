@@ -3317,16 +3317,16 @@
         },
         {
             "name": "mhmiton/laravel-modules-livewire",
-            "version": "v4.3.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mhmiton/laravel-modules-livewire.git",
-                "reference": "05f65e316a99601e58278d4e7770864f90532d5e"
+                "reference": "4133a1ae313e0fd0437629b9340c1484331c3e19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mhmiton/laravel-modules-livewire/zipball/05f65e316a99601e58278d4e7770864f90532d5e",
-                "reference": "05f65e316a99601e58278d4e7770864f90532d5e",
+                "url": "https://api.github.com/repos/mhmiton/laravel-modules-livewire/zipball/4133a1ae313e0fd0437629b9340c1484331c3e19",
+                "reference": "4133a1ae313e0fd0437629b9340c1484331c3e19",
                 "shasum": ""
             },
             "require": {
@@ -3375,9 +3375,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mhmiton/laravel-modules-livewire/issues",
-                "source": "https://github.com/mhmiton/laravel-modules-livewire/tree/v4.3.0"
+                "source": "https://github.com/mhmiton/laravel-modules-livewire/tree/v4.4.0"
             },
-            "time": "2024-11-27T15:53:42+00:00"
+            "time": "2025-02-23T17:42:41+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3883,16 +3883,16 @@
         },
         {
             "name": "nwidart/laravel-modules",
-            "version": "v11.1.8",
+            "version": "v11.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/laravel-modules.git",
-                "reference": "932b861856c5b3f31ac6591db6930488bf1215a5"
+                "reference": "6a987af3103bcf2dc31ebd18a68373bc8c7a99f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/932b861856c5b3f31ac6591db6930488bf1215a5",
-                "reference": "932b861856c5b3f31ac6591db6930488bf1215a5",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/6a987af3103bcf2dc31ebd18a68373bc8c7a99f7",
+                "reference": "6a987af3103bcf2dc31ebd18a68373bc8c7a99f7",
                 "shasum": ""
             },
             "require": {
@@ -3956,7 +3956,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nWidart/laravel-modules/issues",
-                "source": "https://github.com/nWidart/laravel-modules/tree/v11.1.8"
+                "source": "https://github.com/nWidart/laravel-modules/tree/v11.1.10"
             },
             "funding": [
                 {
@@ -3968,7 +3968,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-23T20:41:44+00:00"
+            "time": "2025-02-18T09:58:04+00:00"
         },
         {
             "name": "openspout/openspout",
