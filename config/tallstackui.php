@@ -203,12 +203,12 @@ return [
             | rules: array of default rules for the password generator.
             */
             'password' => [
-            //    'rules' => [
-            //        'min' => '8',
-            //        'mixed' => true,
-            //        'numbers' => true,
-            //        'symbols' => '!@#$%^&*()_+-=',
-            //    ],
+                //    'rules' => [
+                //        'min' => '8',
+                //        'mixed' => true,
+                //        'numbers' => true,
+                //        'symbols' => '!@#$%^&*()_+-=',
+                //    ],
             ],
 
             /*
