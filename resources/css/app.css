@@ -5,6 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Other */
+input {
+    @apply px-2 !important;
+}
+
 /* Filament */
 .fi-no-notification {
     @apply dark:bg-dark-700 !important;

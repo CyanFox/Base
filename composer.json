@@ -21,7 +21,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "mews/captcha": "^3.3",
-        "mhmiton/laravel-modules-livewire": "^4.2",
+        "mhmiton/laravel-modules-livewire": "v4.3.0",
         "nwidart/laravel-modules": "^11.0",
         "openspout/openspout": "^4.24",
         "power-components/livewire-powergrid": "^5.7",
@@ -58,8 +58,7 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
-            "@php artisan cyanfox-base:setup-icons --force --ansi"
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

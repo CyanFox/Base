@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         TallStackUi::personalize()
             ->card()
-            ->block('header.wrapper', 'dark:border-b-dark-600 border-b border-b-gray-100 p-4');
+            ->block('header.wrapper.base', 'dark:border-b-dark-600 border-b border-b-gray-100 p-4');
 
         TallStackUi::personalize()
             ->select('styled')
