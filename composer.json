@@ -26,7 +26,7 @@
         "openspout/openspout": "^4.24",
         "power-components/livewire-powergrid": "^5.7",
         "spatie/laravel-permission": "^6.7",
-        "tallstackui/tallstackui": "^1.27"
+        "tallstackui/tallstackui": "^2.0.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -58,8 +58,7 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
-            "@php artisan cyanfox-base:setup-icons --force --ansi"
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

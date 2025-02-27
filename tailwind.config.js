@@ -1,13 +1,13 @@
-import forms from '@tailwindcss/forms';
 import preset from './vendor/filament/support/tailwind.config.preset'
+import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: 'class',
     presets: [
-        require('./vendor/tallstackui/tallstackui/tailwind.config.js'),
-        require("./vendor/power-components/livewire-powergrid/tailwind.config.js"),
         preset,
+        require("./vendor/power-components/livewire-powergrid/tailwind.config.js"),
+        require('./vendor/tallstackui/tallstackui/tailwind.config.js'),
     ],
     content: [
         './resources/**/*.blade.php',
@@ -25,8 +25,11 @@ export default {
         './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php',
 
         './vendor/filament/**/*.blade.php',
-        './vendor/tallstackui/tallstackui/src/**/*.php',
+        './vendor/tallstackui/tallstackui/**/*.php',
+        './vendor/tallstackui/tallstackui/**/*.js',
+        './vendor/tallstackui/tallstackui/**/*.css',
     ],
+    plugins: [forms],
     theme: {
         extend: {
             colors: {
@@ -80,6 +83,5 @@ export default {
             }
         },
     },
-    plugins: [forms],
 }
 
