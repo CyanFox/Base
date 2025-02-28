@@ -1,3 +1,5 @@
+> [!WARNING]
+> ## **V3 of CyanFox-Base will be discontinued on 01.03.2025. Please use [V4](https://github.com/CyanFox-Labs/CyanFox-Base/tree/v4) instead**
 <br />
 <div align="center">
   <a href="https://github.com/CyanFox-Projects/Laravel-Template/tree/v3">
