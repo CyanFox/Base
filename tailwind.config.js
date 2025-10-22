@@ -1,4 +1,5 @@
 import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
@@ -10,14 +11,10 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
-
         './modules/**/*.blade.php',
         './modules/**/*.php',
-
         './lang/**/*.php',
-
         './app/**/*.php',
-
         './vendor/filament/**/*.blade.php',
         './vendor/masmerise/livewire-toaster/resources/views/*.blade.php',
     ],
@@ -28,5 +25,5 @@ export default {
             },
         },
     },
-    plugins: [forms],
+    plugins: [forms, typography],
 };
