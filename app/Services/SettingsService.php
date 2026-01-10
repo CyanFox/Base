@@ -88,7 +88,7 @@ class SettingsService
         return $setting;
     }
 
-    public function updateSetting(string $key, ?string $value, bool $isLocked = false, bool $isEncrypted = false, ?bool $public = null): Setting
+    public function updateSetting(string $key, ?string $value, ?bool $isLocked = null, bool $isEncrypted = false, ?bool $public = null): Setting
     {
         $setting = Setting::where('key', $key)->first();
 

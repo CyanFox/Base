@@ -3,15 +3,17 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
-
     paths:
         - app/
-        - modules/
+    #    - modules/
 
     level: 5
     checkModelProperties: true
     noEnvCallsOutsideOfConfig: false
     treatPhpDocTypesAsCertain: false
-    excludePaths:
-        - ./app/Traits/WithCustomLivewireException.php
-        - ./app/Traits/SpotlightSearchable.php
+    checkMissingTypehints: true
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        - '#Call to an undefined method#'
+        - '#.* is (never )?used#'

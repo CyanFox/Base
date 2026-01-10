@@ -3,16 +3,8 @@
 use App\Facades\SettingsManager;
 use App\Services\ModuleService;
 use App\Services\SettingsService;
-use App\Services\ViewIntegrationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-
-if (! function_exists('viewIntegration')) {
-    function viewIntegration(): ViewIntegrationService
-    {
-        return app(ViewIntegrationService::class);
-    }
-}
 
 if (! function_exists('settings')) {
     function settings($key = null, $default = null, $isLocked = false)

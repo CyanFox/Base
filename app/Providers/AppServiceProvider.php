@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Services\SpotlightService;
-use App\Services\ViewIntegrationService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -16,10 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(ViewIntegrationService::class, function () {
-            return new ViewIntegrationService;
-        });
-
         $this->app->singleton('spotlight', function ($app) {
             return new SpotlightService();
         });
@@ -41,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'settings.notifications.vertical_alignment' => settings('internal.app.notifications.vertical_alignment', config('settings.notifications.vertical_alignment')),
         ];
 
-        if (! config('settings.disable_db_settings') && config('app.env') !== 'testing') {
+        if (!config('settings.disable_db_settings') && config('app.env') !== 'testing') {
             foreach ($configValues as $key => $value) {
                 Config::set($key, $value);
             }

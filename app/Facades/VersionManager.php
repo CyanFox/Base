@@ -6,11 +6,6 @@ use App\Services\VersionService;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static string getCurrentBaseVersion()
- * @method static bool|null isDevVersion()
- * @method static string getRemoteBaseVersion()
- * @method static bool isBaseUpToDate()
- *
  * @see VersionService
  */
 class VersionManager extends Facade

@@ -7,20 +7,6 @@ use Illuminate\Support\Facades\Facade;
 use Nwidart\Modules\Module;
 
 /**
- * @method static Module getModule(void $module)
- * @method static array|null getRequirements(string $module)
- * @method static bool checkRequirements(string $module)
- * @method static string|null getVersion(string $module)
- * @method static string|null getBaseVersion(string $module)
- * @method static bool checkBaseVersion(string $module)
- * @method static array|null getAuthors(string $module)
- * @method static array|null getKeywords(string $module)
- * @method static string|null getDescription(string $module)
- * @method static string|null getSettingsPage(string $module)
- * @method static string|null getRemoteVersion(string $module)
- * @method static bool installModule(string $path)
- * @method static bool installModuleFromURL(string $url)
- *
  * @see ModuleService
  */
 class ModuleManager extends Facade
