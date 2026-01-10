@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class CFComponent extends Component
 {
-    public function log($message, $level = 'info')
+    public function log($message, $level = 'info'): void
     {
         if ($message instanceof Exception) {
             $message = $message->getMessage();

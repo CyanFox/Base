@@ -24,12 +24,12 @@ class SpotlightSearch extends Component
         'closeSpotlight' => 'close',
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->loadStaticItems();
     }
 
-    public function updatedSearchTerm()
+    public function updatedSearchTerm(): void
     {
         if (empty($this->searchTerm)) {
             $this->loadStaticItems();
@@ -40,14 +40,14 @@ class SpotlightSearch extends Component
         }
     }
 
-    public function loadStaticItems()
+    public function loadStaticItems(): void
     {
         $spotlightService = app('spotlight');
         $this->staticItems = $spotlightService->getStaticItems();
         $this->results = [];
     }
 
-    public function search()
+    public function search(): void
     {
         if (empty($this->searchTerm)) {
             $this->loadStaticItems();
@@ -60,19 +60,15 @@ class SpotlightSearch extends Component
         $this->staticItems = [];
     }
 
-    public function selectNextResult()
+    public function selectNextResult(): void
     {
         $items = $this->getDisplayItems();
         if (count($items) > 0) {
-            if ($this->selectedIndex === null) {
-                $this->selectedIndex = 0;
-            } else {
-                $this->selectedIndex = ($this->selectedIndex + 1) % count($items);
-            }
+            $this->selectedIndex = $this->selectedIndex === null ? 0 : ($this->selectedIndex + 1) % count($items);
         }
     }
 
-    public function selectPreviousResult()
+    public function selectPreviousResult(): void
     {
         $items = $this->getDisplayItems();
         if (count($items) > 0) {
@@ -84,9 +80,9 @@ class SpotlightSearch extends Component
         }
     }
 
-    public function selectResult($index = null)
+    public function selectResult($index = null): void
     {
-        $index = $index ?? $this->selectedIndex;
+        $index ??= $this->selectedIndex;
         $items = $this->getDisplayItems();
 
         if (isset($items[$index])) {
@@ -98,7 +94,7 @@ class SpotlightSearch extends Component
     }
 
     #[On('open-spotlight')]
-    public function open()
+    public function open(): void
     {
         $this->isOpen = true;
         $this->searchTerm = '';
@@ -109,20 +105,20 @@ class SpotlightSearch extends Component
     }
 
     #[On('close-spotlight')]
-    public function close()
+    public function close(): void
     {
         $this->isOpen = false;
         $this->dispatch('spotlight-closed');
     }
 
-    public function getDisplayItems()
+    public function getDisplayItems(): array
     {
         $items = empty($this->searchTerm) ? $this->staticItems : $this->results;
 
         return array_slice($items, 0, settings('internal.spotlight.results_limit', config('settings.spotlight_result_limit', 10)));
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         if (empty($this->searchTerm) && $this->isOpen) {
             $this->loadStaticItems();

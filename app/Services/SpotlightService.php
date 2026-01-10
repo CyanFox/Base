@@ -27,12 +27,12 @@ class SpotlightService
             throw new InvalidArgumentException('Spotlight items must have at least a title and URL');
         }
 
-        $item['description'] = $item['description'] ?? '';
-        $item['icon'] = $item['icon'] ?? 'link';
-        $item['id'] = $item['id'] ?? 'manual-'.count($this->manualItems);
-        $item['model_type'] = $item['model_type'] ?? 'manual';
-        $item['module'] = $item['module'] ?? null;
-        $item['permissions'] = $item['permissions'] ?? null;
+        $item['description'] ??= '';
+        $item['icon'] ??= 'link';
+        $item['id'] ??= 'manual-'.count($this->manualItems);
+        $item['model_type'] ??= 'manual';
+        $item['module'] ??= null;
+        $item['permissions'] ??= null;
 
         if (isset($item['module']) && is_string($item['module']) && $this->isTranslationKey($item['module'])) {
             $item['raw_module'] = $item['module'];
@@ -48,10 +48,10 @@ class SpotlightService
             throw new InvalidArgumentException('Spotlight items must have at least a title and URL');
         }
 
-        $item['icon'] = $item['icon'] ?? 'link';
-        $item['id'] = $item['id'] ?? 'static-'.count($this->staticItems);
-        $item['permissions'] = $item['permissions'] ?? null;
-        $item['module'] = $item['module'] ?? null;
+        $item['icon'] ??= 'link';
+        $item['id'] ??= 'static-'.count($this->staticItems);
+        $item['permissions'] ??= null;
+        $item['module'] ??= null;
 
         if (isset($item['module']) && is_string($item['module']) && $this->isTranslationKey($item['module'])) {
             $item['raw_module'] = $item['module'];
@@ -89,7 +89,7 @@ class SpotlightService
 
     public function getStaticItems(): array
     {
-        $items = array_filter($this->staticItems, [$this, 'userCanViewItem']);
+        $items = array_filter($this->staticItems, $this->userCanViewItem(...));
 
         foreach ($items as &$item) {
             $this->refreshTranslations($item);
@@ -100,7 +100,7 @@ class SpotlightService
 
     public function search(string $term): array
     {
-        if (empty($term)) {
+        if ($term === '' || $term === '0') {
             return [];
         }
 
@@ -112,12 +112,8 @@ class SpotlightService
             $modelResults = $modelClass::spotlightSearch($term)
                 ->limit(settings('internal.spotlight.results_limit', config('settings.spotlight_result_limit', 10)))
                 ->get()
-                ->filter(function ($item) {
-                    return $item->userCanViewInSpotlight();
-                })
-                ->map(function ($item) {
-                    return $item->toSpotlightResult();
-                });
+                ->filter(fn ($item) => $item->userCanViewInSpotlight())
+                ->map(fn ($item) => $item->toSpotlightResult());
 
             $results = array_merge($results, $modelResults->toArray());
         }
@@ -127,15 +123,15 @@ class SpotlightService
         foreach ($manualItems as $item) {
             $matchFound = false;
 
-            if (str_contains(mb_strtolower($item['title']), $searchTerm)) {
+            if (str_contains(mb_strtolower((string) $item['title']), $searchTerm)) {
                 $matchFound = true;
             }
 
-            if (!empty($item['description']) && str_contains(mb_strtolower($item['description']), $searchTerm)) {
+            if (!empty($item['description']) && str_contains(mb_strtolower((string) $item['description']), $searchTerm)) {
                 $matchFound = true;
             }
 
-            if (!empty($item['module']) && str_contains(mb_strtolower($item['module']), $searchTerm)) {
+            if (!empty($item['module']) && str_contains(mb_strtolower((string) $item['module']), $searchTerm)) {
                 $matchFound = true;
             }
 
@@ -144,9 +140,9 @@ class SpotlightService
             }
         }
 
-        usort($results, function ($a, $b) use ($searchTerm) {
-            $aTitle = mb_strtolower($a['title']);
-            $bTitle = mb_strtolower($b['title']);
+        usort($results, function (array $a, array $b) use ($searchTerm): int {
+            $aTitle = mb_strtolower((string) $a['title']);
+            $bTitle = mb_strtolower((string) $b['title']);
 
             if ($aTitle === $searchTerm && $bTitle !== $searchTerm) {
                 return -1;

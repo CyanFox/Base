@@ -20,7 +20,7 @@ if (!function_exists('settings')) {
 }
 
 if (!function_exists('modules')) {
-    function modules()
+    function modules(): ModuleService
     {
         return new ModuleService;
     }
@@ -31,7 +31,7 @@ if (!function_exists('formatFileSize')) {
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $power = $bytes > 0 ? min(floor(log($bytes, 1024)), count($units) - 1) : 0;
-        $size = round($bytes / pow(1024, $power), 2);
+        $size = round($bytes / 1024 ** $power, 2);
 
         return $size . ' ' . $units[$power];
     }

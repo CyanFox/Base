@@ -17,9 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('spotlight', function ($app) {
-            return new SpotlightService();
-        });
+        $this->app->singleton('spotlight', fn ($app): SpotlightService => new SpotlightService());
     }
 
     public function boot(): void

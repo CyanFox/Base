@@ -9,7 +9,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class CFModalComponent extends ModalComponent
 {
-    public function log($message, $level = 'info')
+    public function log($message, $level = 'info'): void
     {
         if ($message instanceof Exception) {
             $message = $message->getMessage();

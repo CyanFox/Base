@@ -6,7 +6,7 @@ namespace App\Traits;
 
 trait SpotlightSearchable
 {
-    public static function bootSpotlightSearchable()
+    public static function bootSpotlightSearchable(): void
     {
         app('spotlight')->registerModel(static::class);
     }
@@ -93,18 +93,18 @@ trait SpotlightSearchable
 
     public function scopeSpotlightSearch($query, string $term)
     {
-        if (empty($term)) {
+        if ($term === '' || $term === '0') {
             return $query->whereRaw('1=0');
         }
 
         $fields = $this->spotlightSearchableFields();
         $searchTerms = array_filter(explode(' ', $term));
 
-        return $query->where(function ($query) use ($searchTerms, $fields) {
+        return $query->where(function ($query) use ($searchTerms, $fields): void {
             foreach ($searchTerms as $term) {
                 $searchTerm = "%{$term}%";
 
-                $query->where(function ($subQuery) use ($searchTerm, $fields, $term) {
+                $query->where(function ($subQuery) use ($searchTerm, $fields, $term): void {
                     foreach ($fields as $field) {
                         $subQuery->orWhere($field, 'LIKE', $searchTerm);
                     }

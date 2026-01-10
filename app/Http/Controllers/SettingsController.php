@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class SettingsController
 {
     #[PathParameter('key', description: 'The key of the setting to retrieve', required: true, example: 'internal.app.name')]
-    public function getSetting(Request $request, $key)
+    public function getSetting(Request $request, $key): \Illuminate\Http\JsonResponse
     {
         $setting = Setting::where(['key' => $key, 'is_public' => true])->first();
 
@@ -30,7 +30,7 @@ class SettingsController
         return apiResponse('Setting retrieved successfully', $setting);
     }
 
-    public function getSettings()
+    public function getSettings(): \Illuminate\Http\JsonResponse
     {
         $settings = Setting::where('is_public', true)->get();
 

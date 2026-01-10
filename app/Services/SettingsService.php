@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class SettingsService
 {
-    public function getSetting(string $key, $default = null, $isLocked = false, bool $isEncrypted = false): ?string
+    public function getSetting(string $key, $default = null, ?bool $isLocked = false, bool $isEncrypted = false): mixed
     {
         try {
             $setting = Setting::where('key', $key)->first();

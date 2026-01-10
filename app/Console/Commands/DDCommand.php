@@ -28,12 +28,8 @@ class DDCommand extends Command
     public function handle()
     {
         return collect($this->argument('code'))
-            ->map(function (string $command) {
-                return mb_rtrim($command, ';');
-            })
-            ->map(function (string $sanitizedCommand) {
-                return eval("dump({$sanitizedCommand});");
-            })
+            ->map(fn (string $command): string => mb_rtrim($command, ';'))
+            ->map(fn (string $sanitizedCommand) => eval("dump({$sanitizedCommand});"))
             ->implode(PHP_EOL);
     }
 }

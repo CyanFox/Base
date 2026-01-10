@@ -34,7 +34,7 @@ class ModuleService
     {
         $requirements = $this->getRequirements($module);
 
-        if (empty($requirements)) {
+        if ($requirements === []) {
             return true;
         }
 

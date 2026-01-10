@@ -22,21 +22,17 @@ class Setting extends Model
     {
         parent::boot();
 
-        self::retrieved(function ($setting) {
-            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, function () use ($setting) {
-                return $setting->value;
-            });
+        self::retrieved(function ($setting): void {
+            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, fn () => $setting->value);
         });
 
-        self::creating(function ($setting) {
-            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, function () use ($setting) {
-                return $setting->value;
-            });
+        self::creating(function ($setting): true {
+            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, fn () => $setting->value);
 
             return true;
         });
 
-        self::updating(function ($setting) {
+        self::updating(function ($setting): bool {
             if ($setting->isDirty('is_locked')) {
                 return true;
             }
@@ -51,7 +47,7 @@ class Setting extends Model
             return true;
         });
 
-        self::deleting(function ($setting) {
+        self::deleting(function ($setting): true {
             Cache::forget('setting_'.$setting->key);
 
             return true;
