@@ -1,27 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use InvalidArgumentException;
 
 class SpotlightService
 {
-    protected array $registeredModels = [];
+    private array $registeredModels = [];
 
-    protected array $manualItems = [];
+    private array $manualItems = [];
 
-    protected array $staticItems = [];
+    private array $staticItems = [];
 
     public function registerModel(string $modelClass): void
     {
-        if (! in_array($modelClass, $this->registeredModels)) {
+        if (!in_array($modelClass, $this->registeredModels)) {
             $this->registeredModels[] = $modelClass;
         }
     }
 
     public function addItem(array $item): void
     {
-        if (! isset($item['title']) || ! isset($item['url'])) {
+        if (!isset($item['title']) || !isset($item['url'])) {
             throw new InvalidArgumentException('Spotlight items must have at least a title and URL');
         }
 
@@ -42,7 +44,7 @@ class SpotlightService
 
     public function addStaticItem(array $item): void
     {
-        if (! isset($item['title']) || ! isset($item['url'])) {
+        if (!isset($item['title']) || !isset($item['url'])) {
             throw new InvalidArgumentException('Spotlight items must have at least a title and URL');
         }
 
@@ -129,11 +131,11 @@ class SpotlightService
                 $matchFound = true;
             }
 
-            if (! empty($item['description']) && str_contains(mb_strtolower($item['description']), $searchTerm)) {
+            if (!empty($item['description']) && str_contains(mb_strtolower($item['description']), $searchTerm)) {
                 $matchFound = true;
             }
 
-            if (! empty($item['module']) && str_contains(mb_strtolower($item['module']), $searchTerm)) {
+            if (!empty($item['module']) && str_contains(mb_strtolower($item['module']), $searchTerm)) {
                 $matchFound = true;
             }
 
@@ -153,10 +155,10 @@ class SpotlightService
                 return 1;
             }
 
-            if (str_starts_with($aTitle, $searchTerm) && ! str_starts_with($bTitle, $searchTerm)) {
+            if (str_starts_with($aTitle, $searchTerm) && !str_starts_with($bTitle, $searchTerm)) {
                 return -1;
             }
-            if (str_starts_with($bTitle, $searchTerm) && ! str_starts_with($aTitle, $searchTerm)) {
+            if (str_starts_with($bTitle, $searchTerm) && !str_starts_with($aTitle, $searchTerm)) {
                 return 1;
             }
 
@@ -175,13 +177,13 @@ class SpotlightService
         return array_slice($results, 0, settings('internal.spotlight.results_limit', config('settings.spotlight_result_limit', 10)));
     }
 
-    protected function isTranslationKey(string $text): bool
+    private function isTranslationKey(string $text): bool
     {
         return str_contains($text, '::') ||
             preg_match('/^[a-z0-9_]+\.[a-z0-9_.]+$/i', $text);
     }
 
-    protected function refreshTranslations(array &$item): void
+    private function refreshTranslations(array &$item): void
     {
         if (isset($item['raw_module'])) {
             $item['module'] = __($item['raw_module']);
@@ -196,14 +198,14 @@ class SpotlightService
         }
     }
 
-    protected function userCanViewItem(array $item): bool
+    private function userCanViewItem(array $item): bool
     {
         if (empty($item['permissions'])) {
             return true;
         }
 
         $user = auth()->user();
-        if (! $user) {
+        if (!$user) {
             return false;
         }
 

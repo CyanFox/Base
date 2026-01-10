@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
-use App\Models\Setting;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\multiselect;
-use function Laravel\Prompts\confirm;
 
 class MigrateSettingCommand extends Command
 {

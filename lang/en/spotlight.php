@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'search_placeholder' => 'Search...',
     'quick_access' => 'Quick Access',

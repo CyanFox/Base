@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -20,21 +22,21 @@ class Setting extends Model
     {
         parent::boot();
 
-        static::retrieved(function ($setting) {
-            Cache::remember('setting_'.$setting->key, 60*60*24, function () use ($setting) {
+        self::retrieved(function ($setting) {
+            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, function () use ($setting) {
                 return $setting->value;
             });
         });
 
-        static::creating(function ($setting) {
-            Cache::remember('setting_'.$setting->key, 60*60*24, function () use ($setting) {
+        self::creating(function ($setting) {
+            Cache::remember('setting_'.$setting->key, 60 * 60 * 24, function () use ($setting) {
                 return $setting->value;
             });
 
             return true;
         });
 
-        static::updating(function ($setting) {
+        self::updating(function ($setting) {
             if ($setting->isDirty('is_locked')) {
                 return true;
             }
@@ -49,7 +51,7 @@ class Setting extends Model
             return true;
         });
 
-        static::deleting(function ($setting) {
+        self::deleting(function ($setting) {
             Cache::forget('setting_'.$setting->key);
 
             return true;

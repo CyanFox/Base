@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
@@ -11,7 +13,6 @@ use Illuminate\Http\Request;
 #[Group('Settings')]
 class SettingsController
 {
-
     #[PathParameter('key', description: 'The key of the setting to retrieve', required: true, example: 'internal.app.name')]
     public function getSetting(Request $request, $key)
     {

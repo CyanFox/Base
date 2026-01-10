@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'notifications' => [
         'something_went_wrong' => 'Something went wrong. Check the developer console for more information.',

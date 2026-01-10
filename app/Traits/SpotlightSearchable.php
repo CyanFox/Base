@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 trait SpotlightSearchable
@@ -72,7 +74,7 @@ trait SpotlightSearchable
         }
 
         $user = auth()->user();
-        if (! $user) {
+        if (!$user) {
             return false;
         }
 
@@ -81,7 +83,7 @@ trait SpotlightSearchable
         }
 
         foreach ($permissions as $permission) {
-            if ($user->can($permission)) { // @phpstan-ignore-line
+            if ($user->can($permission)) {
                 return true;
             }
         }

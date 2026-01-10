@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Facades\VersionManager;
@@ -43,7 +45,7 @@ class ModuleService
                 return false;
             }
 
-            if ($module->isEnabled() && ! $this->checkRequirements($module->getName())) {
+            if ($module->isEnabled() && !$this->checkRequirements($module->getName())) {
                 return false;
             }
         }
@@ -124,7 +126,7 @@ class ModuleService
             $response = Http::get($module->get('remote_version_url'));
             $response = json_decode($response->body(), true);
 
-            if (! isset($response['version'])) {
+            if (!isset($response['version'])) {
                 return null;
             }
 

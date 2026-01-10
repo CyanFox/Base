@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Facades\SettingsManager;
 use App\Services\ModuleService;
 use App\Services\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 
-if (! function_exists('settings')) {
+if (!function_exists('settings')) {
     function settings($key = null, $default = null, $isLocked = false)
     {
         if ($key === null) {
@@ -17,25 +19,25 @@ if (! function_exists('settings')) {
     }
 }
 
-if (! function_exists('modules')) {
+if (!function_exists('modules')) {
     function modules()
     {
         return new ModuleService;
     }
 }
 
-if (! function_exists('formatFileSize')) {
+if (!function_exists('formatFileSize')) {
     function formatFileSize(int $bytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $power = $bytes > 0 ? min(floor(log($bytes, 1024)), count($units) - 1) : 0;
         $size = round($bytes / pow(1024, $power), 2);
 
-        return $size.' '.$units[$power];
+        return $size . ' ' . $units[$power];
     }
 }
 
-if (! function_exists('formatDateTime')) {
+if (!function_exists('formatDateTime')) {
     function formatDateTime($date, $format = null): string
     {
         if (blank($date)) {
@@ -50,7 +52,7 @@ if (! function_exists('formatDateTime')) {
     }
 }
 
-if (! function_exists('formatDate')) {
+if (!function_exists('formatDate')) {
     function formatDate($date, $format = null): string
     {
         if (blank($date)) {
@@ -65,7 +67,7 @@ if (! function_exists('formatDate')) {
     }
 }
 
-if (! function_exists('formatTime')) {
+if (!function_exists('formatTime')) {
     function formatTime(string $time, $format = null): string
     {
         if (blank($time)) {
@@ -80,14 +82,14 @@ if (! function_exists('formatTime')) {
     }
 }
 
-if (! function_exists('carbon')) {
+if (!function_exists('carbon')) {
     function carbon($time = null, $tz = null): Carbon
     {
         return new Carbon($time, $tz);
     }
 }
 
-if (! function_exists('apiResponse')) {
+if (!function_exists('apiResponse')) {
     function apiResponse($message, $data = null, bool $success = true, int $statusCode = 200): JsonResponse
     {
         return response()->json([

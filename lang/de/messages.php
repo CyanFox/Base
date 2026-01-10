@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'notifications' => [
         'something_went_wrong' => 'Etwas ist schief gelaufen. Für weitere Informationen, siehe die Entwicklerkonsole.',
