@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
-use Dedoc\Scramble\Attributes\Group;
-use Dedoc\Scramble\Attributes\PathParameter;
 use Exception;
 use Illuminate\Http\Request;
 
-#[Group('Settings')]
 class SettingsController
 {
-    #[PathParameter('key', description: 'The key of the setting to retrieve', required: true, example: 'internal.app.name')]
     public function getSetting(Request $request, $key): \Illuminate\Http\JsonResponse
     {
         $setting = Setting::where(['key' => $key, 'is_public' => true])->first();

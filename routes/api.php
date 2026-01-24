@@ -2,10 +2,24 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\SettingsController;
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'v1/settings', 'name' => 'api.'], function () {
-    Route::get('{key}', [SettingsController::class, 'getSetting'])->name('settings.get')->middleware('throttle:100,1');
-    Route::get('/', [SettingsController::class, 'getSettings'])->name('settings.all')->middleware('throttle:100,1');
+Route::group(['prefix' => 'v1', 'name' => 'api.'], function () {
+    Route::get('health', function () {
+        $exception = null;
+        try {
+            Event::dispatch(new DiagnosingHealth);
+        } catch (Throwable $e) {
+            if (app()->hasDebugModeEnabled()) {
+                throw $e;
+            }
+
+            report($e);
+
+            $exception = $e->getMessage();
+        }
+
+        return apiResponse($exception ? 'unhealthy' : 'healthy', $exception, !$exception, $exception ? 500 : 200);
+    })->name('health')->middleware('throttle:60,1');
 });

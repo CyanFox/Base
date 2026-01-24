@@ -4,117 +4,40 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\SettingNotFoundException;
 use App\Models\Setting;
-use Exception;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use App\Traits\HandleSettingsValues;
 
 class SettingsService
 {
-    public function getSetting(string $key, $default = null, ?bool $isLocked = false, bool $isEncrypted = false): mixed
+    use HandleSettingsValues;
+
+    public function getSetting(string $key, $default = null): mixed
     {
-        try {
+        return cache()->remember("setting_{$key}", 60 * 60, function () use ($key, $default) {
             $setting = Setting::where('key', $key)->first();
-
             if ($setting === null) {
-                $setting = $this->setSetting($key, $default, isLocked: $isLocked, isEncrypted: $isEncrypted);
-            }
-
-            if (Str::contains($key, ['key', 'password', 'secret', 'token'])) {
-                $isEncrypted = true;
-            }
-
-            if ($isEncrypted) {
-                try {
-                    return decrypt($setting->value);
-                } catch (Exception) {
-                    return $setting->value;
-                }
-            }
-
-            if ($default !== null && $setting->value === null) {
                 return $default;
             }
 
-            if ($setting->value === null && $default === null) {
-                return config($key);
-            }
-
-            return match ($setting->value) {
-                'true' => true,
-                'false' => false,
-                default => $setting->value,
-            };
-        } catch (Exception) {
-            if ($default !== null) {
-                return $default;
-            }
-
-            return config($key);
-        }
+            return $this->decryptIfNeeded($setting->value);
+        });
     }
 
-    public function setSetting(string $key, ?string $value = null, ?bool $isLocked = null, bool $isEncrypted = false, bool $updateIfExists = false, ?bool $public = null): Setting
+    public function setSetting(string $key, ?string $value = null): Setting
     {
-        $setting = Setting::where('key', $key)->first();
+        cache()->forget("setting_{$key}");
 
-        if (Str::contains($key, ['key', 'password', 'secret', 'token'])) {
-            $isEncrypted = true;
-        }
-
-        if ($setting === null) {
-            $setting = new Setting;
-            $setting->key = $key;
-            if ($value !== null) {
-                $value = ($isEncrypted) ? encrypt($value) : $value;
-            } elseif (config($key) !== null) {
-                $value = ($isEncrypted) ? encrypt(config($key)) : config($key);
-            }
-
-            $setting->value = $value;
-            $setting->is_locked = $isLocked ?? false;
-            $setting->is_public = $public ?? false;
-            $setting->save();
-        } elseif ($updateIfExists) {
-            if ($setting->is_locked) {
-                Log::debug('Attempted to update locked setting: '.$setting->key);
-
-                return $setting;
-            }
-            $setting->value = ($isEncrypted) ? encrypt($value) : $value;
-            $setting->is_locked = $isLocked ?? $setting->is_locked;
-            $setting->is_public = $public ?? $setting->is_public;
-            $setting->save();
-        }
-
-        return $setting;
+        return Setting::updateOrCreate([
+            'key' => $key,
+        ], [
+            'value' => $value,
+        ]);
     }
 
-    public function updateSetting(string $key, ?string $value, ?bool $isLocked = null, bool $isEncrypted = false, ?bool $public = null): Setting
-    {
-        $setting = Setting::where('key', $key)->first();
-
-        if (Str::contains($key, ['key', 'password', 'secret', 'token'])) {
-            $isEncrypted = true;
-        }
-
-        if ($setting !== null) {
-            if ($setting->is_locked) {
-                Log::debug('Attempted to update locked setting: '.$setting->key);
-
-                return $setting;
-            }
-            $setting->value = ($isEncrypted) ? encrypt($value) : $value;
-            $setting->is_locked = $isLocked ?? $setting->is_locked;
-            $setting->is_public = $public ?? $setting->is_public;
-            $setting->save();
-        } else {
-            $setting = $this->setSetting($key, $value, $isLocked, $isEncrypted);
-        }
-
-        return $setting;
-    }
-
+    /**
+     * @throws SettingNotFoundException
+     */
     public function updateSettings(array $settings): void
     {
         foreach ($settings as $key => $value) {
@@ -122,11 +45,32 @@ class SettingsService
         }
     }
 
+    /**
+     * @throws SettingNotFoundException
+     */
+    public function updateSetting(string $key, ?string $value): Setting
+    {
+        $setting = Setting::where('key', $key)->first();
+
+        if ($setting === null) {
+            throw new SettingNotFoundException($key);
+        }
+        cache()->forget("setting_{$key}");
+
+        $setting->update([
+            'value' => $value,
+        ]);
+
+        return $setting;
+    }
+
     public function deleteSetting(string $key): bool
     {
         $setting = Setting::where('key', $key)->first();
 
         if ($setting !== null) {
+            cache()->forget("setting_{$key}");
+
             return $setting->delete();
         }
 

@@ -22,27 +22,32 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $configValues = [
-            'app.name' => settings('internal.app.name', config('app.name')),
-            'app.url' => settings('internal.app.url', config('app.url')),
-            'app.timezone' => settings('internal.app.timezone', config('app.timezone')),
-            'app.locale' => settings('internal.app.lang', config('app.locale')),
-            'sentry.dsn' => settings('internal.app.sentry_dsn', config('sentry.dsn')),
-            'sentry.send_default_pii' => settings('internal.app.send_default_pii', config('sentry.send_default_pii')),
-            'sentry.traces_sample_rate' => settings('internal.app.traces_sample_rate', config('sentry.traces_sample_rate')),
-            'settings.disable_db_settings' => settings('internal.app.disable_db_settings', config('settings.disable_db_settings')),
-            'settings.force_https' => settings('internal.app.force_https', config('settings.force_https')),
-            'settings.notifications.alignment' => settings('internal.app.notifications.alignment', config('settings.notifications.alignment')),
-            'settings.notifications.vertical_alignment' => settings('internal.app.notifications.vertical_alignment', config('settings.notifications.vertical_alignment')),
-        ];
 
-        if (!config('settings.disable_db_settings') && config('app.env') !== 'testing') {
+        if (!config('settings.disable_db_settings') && !app()->runningInConsole()) {
+            $publicConfigValues = [
+                'app.name' => settings('internal.app.name', config('app.name')),
+                'app.url' => settings('internal.app.url', config('app.url')),
+                'app.timezone' => settings('internal.app.timezone', config('app.timezone')),
+                'app.locale' => settings('internal.app.lang', config('app.locale')),
+                'settings.force_https' => settings('internal.app.force_https', config('settings.force_https')),
+                'settings.notifications.alignment' => settings('internal.app.notifications.alignment', config('settings.notifications.alignment')),
+                'settings.notifications.vertical_alignment' => settings('internal.app.notifications.vertical_alignment', config('settings.notifications.vertical_alignment')),
+            ];
+            $configValues = [
+                'sentry.dsn' => settings('internal.app.sentry_dsn', config('sentry.dsn')),
+                'sentry.send_default_pii' => settings('internal.app.send_default_pii', config('sentry.send_default_pii')),
+                'sentry.traces_sample_rate' => settings('internal.app.traces_sample_rate', config('sentry.traces_sample_rate')),
+            ];
+
+            foreach ($publicConfigValues as $key => $value) {
+                Config::set($key, $value);
+            }
             foreach ($configValues as $key => $value) {
                 Config::set($key, $value);
             }
         }
 
-        if (Str::startsWith(config('app.url') ?? '', 'https://') || settings('internal.app.force_https')) {
+        if (Str::startsWith(config('app.url') ?? '', 'https://')) {
             URL::forceScheme('https');
         }
     }

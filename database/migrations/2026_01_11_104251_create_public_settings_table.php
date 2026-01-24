@@ -8,19 +8,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table): void {
+        Schema::create('public_settings', function (Blueprint $table): void {
             $table->id();
             $table->string('key')->unique();
             $table->text('value')->nullable();
-            $table->boolean('is_locked')->default(false);
+            $table->boolean('auth')->default(false);
+            $table->string('permission')->nullable();
+            $table->string('group')->nullable();
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('public_settings');
     }
 };

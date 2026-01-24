@@ -9,13 +9,24 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 
 if (!function_exists('settings')) {
-    function settings($key = null, $default = null, $isLocked = false)
+    function settings($key = null, $default = null)
     {
         if ($key === null) {
             return new SettingsService;
         }
 
-        return SettingsManager::getSetting($key, $default, $isLocked);
+        return SettingsManager::getSetting($key, $default);
+    }
+}
+
+if (!function_exists('publicSettings')) {
+    function publicSettings($key = null, $default = null)
+    {
+        if ($key === null) {
+            return new SettingsService;
+        }
+
+        return SettingsManager::getSetting($key, $default);
     }
 }
 

@@ -6,10 +6,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class PublicSetting extends Model
 {
     protected $fillable = [
         'key',
         'value',
+        'auth',
+        'permission',
+        'group',
+    ];
+
+    protected $casts = [
+        'auth' => 'boolean',
     ];
 }

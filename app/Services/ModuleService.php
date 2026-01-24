@@ -5,41 +5,29 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Facades\VersionManager;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Nwidart\Modules\Facades\Module;
+use Nwidart\Modules\Module as ModuleInstance;
+use RuntimeException;
 use ZipArchive;
 
 class ModuleService
 {
-    public function getModule($module)
+    public function checkRequirements(string $moduleName): bool
     {
-        return Module::find($module);
-    }
-
-    public function getRequirements(string $module): array
-    {
-        $module = Module::find($module);
-
-        if ($module->get('require') !== null) {
-            return $module->get('require');
-        }
-
-        return [];
-    }
-
-    public function checkRequirements(string $module): bool
-    {
-        $requirements = $this->getRequirements($module);
+        $requirements = $this->getRequirements($moduleName);
 
         if ($requirements === []) {
             return true;
         }
 
         foreach ($requirements as $requirement) {
-            $module = Module::find($requirement);
+            $module = $this->getModule($requirement);
 
             if ($module->isDisabled()) {
                 return false;
@@ -53,138 +41,176 @@ class ModuleService
         return true;
     }
 
-    public function getVersion(string $module): ?string
+    public function getRequirements(string $moduleName): array
     {
-        $module = Module::find($module);
-
-        return $module->get('version');
+        return $this->getModule($moduleName)->get('require', []);
     }
 
-    public function getBaseVersion(string $module): ?string
+    public function getBaseVersion(string $moduleName): ?string
     {
-        $module = Module::find($module);
-
-        return $module->get('version');
+        return $this->getModule($moduleName)->get('version');
     }
 
-    public function checkBaseVersion(string $module): bool
+    public function checkBaseVersion(string $moduleName): bool
     {
-        $module = Module::find($module);
+        $module = $this->getModule($moduleName);
+        $baseVersion = $module->get('base_version');
 
-        if ($module->get('base_version') !== null) {
-            return version_compare(VersionManager::getCurrentBaseVersion(), $module->get('base_version'), '>=');
+        if ($baseVersion === null) {
+            return true;
         }
 
-        return true;
+        return version_compare(VersionManager::getCurrentBaseVersion(), $baseVersion, '>=');
     }
 
-    public function getAuthors(string $module): ?array
+    public function getAuthors(string $moduleName): ?array
     {
-        $module = Module::find($module);
-
-        return $module->get('authors');
+        return $this->getModule($moduleName)->get('authors');
     }
 
-    public function getKeywords(string $module): ?array
+    public function getKeywords(string $moduleName): ?array
     {
-        $module = Module::find($module);
-
-        return $module->get('keywords');
+        return $this->getModule($moduleName)->get('keywords');
     }
 
-    public function getDescription(string $module): ?string
+    public function getDescription(string $moduleName): ?string
     {
-        $module = Module::find($module);
-
-        return $module->get('description');
+        return $this->getModule($moduleName)->get('description');
     }
 
-    public function getSettingsPage(string $module): ?string
+    public function getSettingsPage(string $moduleName): ?string
     {
-        $module = Module::find($module);
+        $module = $this->getModule($moduleName);
+        $settingsPage = $module->get('settings_page');
 
-        if ($module->get('settings_page') !== null && Route::has($module->get('settings_page'))) {
-            return route($module->get('settings_page'));
+        if ($settingsPage !== null && Route::has($settingsPage)) {
+            return route($settingsPage);
         }
 
         return null;
     }
 
-    public function getRemoteVersion(string $module): ?string
+    public function isUpdateAvailable(string $moduleName): bool
     {
-        $module = Module::find($module);
+        $remoteVersion = $this->getRemoteVersion($moduleName);
+        $currentVersion = $this->getVersion($moduleName);
+
+        if ($remoteVersion === null) {
+            return false;
+        }
+
+        return version_compare($remoteVersion, $currentVersion, '>');
+    }
+
+    public function getRemoteVersion(string $moduleName): ?string
+    {
+        $module = $this->getModule($moduleName);
 
         if (config('app.env') === 'testing') {
-            return $this->getVersion($module->getName());
+            return $this->getVersion($moduleName);
         }
 
-        if ($module->get('remote_version_url') !== null) {
-            if (Cache::has($module->getName().'_version')) {
-                return Cache::get($module->getName().'_version');
-            }
-
-            $response = Http::get($module->get('remote_version_url'));
-            $response = json_decode($response->body(), true);
-
-            if (!isset($response['version'])) {
-                return null;
-            }
-
-            Cache::put($module->getName().'_version', $response['version'], now()->addMinutes(60));
-
-            return $response['version'];
+        $remoteUrl = $module->get('remote_version_url');
+        if ($remoteUrl === null) {
+            return null;
         }
 
-        return null;
+        $cacheKey = $moduleName . '_version';
+
+        return Cache::remember($cacheKey, now()->addMinutes(60), function () use ($module, $remoteUrl) {
+            $headers = $module->get('remote_headers', []);
+
+            $response = empty($headers)
+                ? Http::get($remoteUrl)
+                : Http::withHeaders($headers)->get($remoteUrl);
+
+            $data = $response->json();
+
+            return $data['version'] ?? null;
+        });
+    }
+
+    public function getVersion(string $moduleName): ?string
+    {
+        return $this->getModule($moduleName)->get('version');
+    }
+
+    public function runInstall(string $moduleName): void
+    {
+        $installCommand = $this->getModule($moduleName)->get('install_command');
+
+        if ($installCommand !== null) {
+            Artisan::call($installCommand);
+        }
+    }
+
+    public function runUninstall(string $moduleName): void
+    {
+        $uninstallCommand = $this->getModule($moduleName)->get('uninstall_command');
+
+        if ($uninstallCommand !== null) {
+            Artisan::call($uninstallCommand);
+        }
     }
 
     public function installModule(string $path): bool
     {
-        $destinationPath = base_path('modules');
+        $fullPath = storage_path($path);
+        $moduleName = pathinfo($path, PATHINFO_FILENAME);
 
-        $zip = new ZipArchive;
-        $zipStatus = $zip->open(storage_path($path));
+        return $this->extractAndEnableModule($fullPath, $moduleName);
+    }
 
-        if ($zipStatus === true) {
+    public function getModule(string $moduleName): ModuleInstance
+    {
+        $module = Module::find($moduleName);
 
-            $zip->extractTo($destinationPath);
-            $zip->close();
-
-            File::deleteDirectory(storage_path('app/temp'));
-
-            return true;
+        if ($module === null) {
+            throw new ModuleNotFoundException("Module '{$moduleName}' not found.");
         }
 
-        return false;
-
+        return $module;
     }
 
     public function installModuleFromURL(string $url): bool
     {
-        $destinationPath = base_path('modules');
         $tempPath = storage_path('app/temp');
-
-        $tempFile = $tempPath.'/'.basename($url);
+        $tempFile = $tempPath . '/' . basename($url);
 
         File::ensureDirectoryExists($tempPath);
 
-        $file = file_get_contents($url);
-        file_put_contents($tempFile, $file);
+        try {
+            $response = Http::timeout(30)->get($url);
 
-        $zip = new ZipArchive;
-        $zipStatus = $zip->open($tempFile);
+            if ($response->failed()) {
+                throw new RuntimeException('Failed to download module');
+            }
 
-        if ($zipStatus === true) {
+            File::put($tempFile, $response->body());
 
-            $zip->extractTo($destinationPath);
-            $zip->close();
+            $moduleName = pathinfo($tempFile, PATHINFO_FILENAME);
 
+            return $this->extractAndEnableModule($tempFile, $moduleName);
+        } finally {
             File::deleteDirectory($tempPath);
+        }
+    }
 
-            return true;
+    private function extractAndEnableModule(string $zipPath, string $moduleName): bool
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipPath) !== true) {
+            return false;
         }
 
-        return false;
+        $destinationPath = base_path('modules');
+        $zip->extractTo($destinationPath);
+        $zip->close();
 
+        $this->getModule($moduleName)->enable();
+        $this->runInstall($moduleName);
+
+        return true;
     }
 }

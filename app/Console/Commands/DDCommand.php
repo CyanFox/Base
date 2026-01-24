@@ -1,4 +1,8 @@
 <?php
+/*
+ * Stolen from: https://github.com/spatie/laravel-artisan-dd
+ * License: MIT
+ */
 
 declare(strict_types=1);
 
