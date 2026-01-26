@@ -14,7 +14,6 @@
     "require": {
         "php": "^8.2",
         "ext-zip": "*",
-        "behindsolution/laravel-query-gate": "^1.6",
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
@@ -24,6 +23,8 @@
         "nunomaduro/essentials": "^0.1",
         "nwidart/laravel-modules": "^12.0",
         "pusher/pusher-php-server": "^7.2",
+        "realzone22/larahooks": "^1.0",
+        "realzone22/laravel-query-gate": "^1.0",
         "realzone22/pengublade": "^1.0",
         "realzone22/pengutables": "^1.0",
         "sentry/sentry-laravel": "^4.15",

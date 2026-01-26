@@ -4,7 +4,7 @@
 - The WithCustomLivewireException Trait has been removed due to buggy behavior. Please handle exceptions better :)
 - Settings are now stored in different tables:
   - `settings` for general settings (not accessible via API!)
-  - `public_settings` for public settings (accessible with or without authentication and permissions). Used for API (Mobile, Desktop)
+  - `public_settings` for public settings (accessible with or without authentication). Used for API (Mobile, Desktop)
   - `user_settings` for user-specific settings
 - New helpers for settings:
     - `settings` to get general settings

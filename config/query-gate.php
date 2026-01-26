@@ -1,7 +1,5 @@
 <?php
 
-use BehindSolution\LaravelQueryGate\Support\QueryGate;
-
 return [
     'route' => [
         'prefix' => 'api/v1',
@@ -13,14 +11,20 @@ return [
         'max_per_page' => 500,
     ],
 
+    'default_version' => null,
+
+    'standalone_actions' => [
+
+    ],
+
     'openAPI' => [
         'enabled' => true,
         'title' => 'CyanFox Base Public API',
         'description' => 'API documentation for CyanFox Base public endpoints.',
         'version' => 'v1',
-        'route' => 'api/v1/docs',
+        'route' => 'api/docs',
         'json_route' => null,
-        'ui' => 'redoc',
+        'ui' => 'swagger-ui',
         'ui_options' => [],
         'servers' => [],
         'output' => [
@@ -41,33 +45,7 @@ return [
     ],
 
     'models' => [
-        // App\Models\User::class => QueryGate::make()
-        //     ->alias('users')
-        //     ->query(fn ($query) => $query->where('active', true))
-        //     ->middleware(['auth:sanctum'])
-        //     ->version('2024-01-01', function (QueryGate $gate) {
-        //         $gate->filters([
-        //             'name' => 'string',
-        //             'email' => 'email',
-        //         ])->allowedFilters([
-        //             'name' => ['like'],
-        //             'email' => ['eq'],
-        //         ])->select(['id', 'name', 'email']);
-        //     })
-        //     ->version('2024-11-01', function (QueryGate $gate) {
-        //         $gate->filters([
-        //             'name' => 'string',
-        //             'email' => 'email',
-        //             'created_at' => 'date',
-        //         ])->allowedFilters([
-        //             'name' => ['like'],
-        //             'email' => ['eq', 'like'],
-        //             'created_at' => ['gte', 'lte', 'between'],
-        //         ])->select(['id', 'name', 'email', 'created_at']);
-        //     }),
-        //
-        // // Or simply list the model class when it implements HasQueryGate:
-        // App\Models\User::class,
+
     ],
 
 ];

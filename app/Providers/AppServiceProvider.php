@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Actions\QueryGate\HealthCheckAction;
+use App\Models\PublicSetting;
 use App\Services\SpotlightService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
@@ -17,12 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('spotlight', fn ($app): SpotlightService => new SpotlightService());
+        $this->app->singleton('spotlight', fn($app): SpotlightService => new SpotlightService());
     }
 
     public function boot(): void
     {
-
         if (!config('settings.disable_db_settings') && !app()->runningInConsole()) {
             $publicConfigValues = [
                 'app.name' => settings('internal.app.name', config('app.name')),
@@ -45,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
             foreach ($configValues as $key => $value) {
                 Config::set($key, $value);
             }
+        }
+
+        if (!app()->runningInConsole()) {
+            addQueryGateStandaloneAction('health', HealthCheckAction::class);
+            addQueryGateModel(PublicSetting::class);
         }
 
         if (Str::startsWith(config('app.url') ?? '', 'https://')) {

@@ -65,6 +65,6 @@ class VersionService
             return true;
         }
 
-        return $currentVersion === $remoteVersion;
+        return version_compare($currentVersion, $remoteVersion, '>=');
     }
 }

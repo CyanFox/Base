@@ -7,9 +7,10 @@ use App\Services\ModuleService;
 use App\Services\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 if (!function_exists('settings')) {
-    function settings($key = null, $default = null)
+    function settings($key = null, $default = null): mixed
     {
         if ($key === null) {
             return new SettingsService;
@@ -20,7 +21,7 @@ if (!function_exists('settings')) {
 }
 
 if (!function_exists('publicSettings')) {
-    function publicSettings($key = null, $default = null)
+    function publicSettings($key = null, $default = null): mixed
     {
         if ($key === null) {
             return new SettingsService;
@@ -108,5 +109,33 @@ if (!function_exists('apiResponse')) {
             'message' => $message,
             'data' => $data,
         ], $statusCode);
+    }
+}
+
+if (!function_exists('addQueryGateModel')) {
+    function addQueryGateModel(string $modelClass, ?string $queryGateClass): void
+    {
+        if ($queryGateClass !== null) {
+            Config::set('query-gate.models', array_merge(
+                Config::get('query-gate.models', []),
+                [$modelClass => $queryGateClass]
+            ));
+            return;
+        }
+
+        Config::set('query-gate.models', array_merge(
+            Config::get('query-gate.models', []),
+            [$modelClass]
+        ));
+    }
+}
+
+if (!function_exists('addQueryGateStandaloneAction')) {
+    function addQueryGateStandaloneAction(string $actionName, string $actionClasses): void
+    {
+        Config::set('query-gate.standalone_actions', array_merge(
+            Config::get('query-gate.standalone_actions', []),
+            [$actionName => $actionClasses]
+        ));
     }
 }

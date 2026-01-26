@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('key')->unique();
             $table->text('value')->nullable();
             $table->boolean('auth')->default(false);
-            $table->string('permission')->nullable();
-            $table->string('group')->nullable();
             $table->timestamps();
         });
     }
