@@ -6,11 +6,15 @@ The following versions of CyanFox-Base are receiving active support and maintena
 
 | Version | Supported          |
 |---------|--------------------|
-| 4.x     | :white_check_mark: |
+| 2026.x  | :white_check_mark: |
+| 2025.x  | :yellow_circle:    |
 | 3.x     | :x:                |
 | 2.x     | :x:                |
 | < 1.x   | :x:                |
 
+- :white_check_mark: - Active support and maintenance
+- :yellow_circle: - Security fixes only
+- :x: - No longer supported
 
 ## Reporting a Vulnerability
 

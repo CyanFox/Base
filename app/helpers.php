@@ -113,7 +113,7 @@ if (!function_exists('apiResponse')) {
 }
 
 if (!function_exists('addQueryGateModel')) {
-    function addQueryGateModel(string $modelClass, ?string $queryGateClass): void
+    function addQueryGateModel(string $modelClass, ?string $queryGateClass = null): void
     {
         if ($queryGateClass !== null) {
             Config::set('query-gate.models', array_merge(
