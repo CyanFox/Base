@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'component_layout' => 'layouts::app',
+    'component_layout' => 'components.cf.layouts.app',
 
     /*
     |---------------------------------------------------------------------------
@@ -71,12 +71,12 @@ return [
     */
 
     'make_command' => [
-        'type' => 'sfc', // Options: 'sfc', 'mfc', 'class'
-        'emoji' => true, // Options: true, false
+        'type' => 'mfc', // Options: 'sfc', 'mfc', 'class'
+        'emoji' => false, // Options: true, false
         'with' => [
             'js' => false,
             'css' => false,
-            'test' => false,
+            'test' => true,
         ],
     ],
 

@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Livewire;
+namespace App\Traits;
 
 use Exception;
-use LivewireUI\Modal\ModalComponent;
 
-class CFModalComponent extends ModalComponent
+trait WithLoggingAndView
 {
     public function log($message, $level = 'info'): void
     {
@@ -15,5 +12,12 @@ class CFModalComponent extends ModalComponent
             $message = $message->getMessage();
         }
         $this->dispatch('logger', ['type' => $level, 'message' => $message]);
+    }
+
+    public function renderView($view, $title, $layout = 'components.cf.layouts.app', $params = [])
+    {
+        $params = array_merge($params, ['title' => $title]);
+
+        return view($view)->layout($layout, $params);
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Actions\QueryGate\HealthCheckAction;
+use App\Facades\PublicSettingsManager;
+use App\Facades\SettingsManager;
 use App\Models\PublicSetting;
 use App\Services\SpotlightService;
 use Illuminate\Support\Facades\Config;

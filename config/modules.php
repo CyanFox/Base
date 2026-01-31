@@ -243,7 +243,7 @@ return [
     'composer' => [
         'vendor' => env('MODULE_VENDOR', 'cyanfox'),
         'author' => [
-            'name' => env('MODULE_AUTHOR_NAME', 'CyanFox Labs'),
+            'name' => env('MODULE_AUTHOR_NAME', 'CyanFox'),
             'email' => env('MODULE_AUTHOR_EMAIL', 'opensouce@cyanfox.de'),
         ],
         'composer-output' => false,

@@ -24,9 +24,17 @@ class SettingsService
         });
     }
 
-    public function setSetting(string $key, ?string $value = null): Setting
+    public function setSetting(string $key, ?string $value = null, bool $updateIfExists = false): Setting
     {
         cache()->forget("setting_{$key}");
+
+        if (!$updateIfExists) {
+            return Setting::firstOrCreate([
+                'key' => $key,
+            ], [
+                'value' => $value,
+            ]);
+        }
 
         return Setting::updateOrCreate([
             'key' => $key,
