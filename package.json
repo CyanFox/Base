@@ -23,7 +23,7 @@
         "boxicons": "^2.1.4",
         "diff2html": "^3.4.46",
         "easymde": "^2.18.0",
-        "highlight.js": "^11.9.0",
+        "highlight.js": "^11.11.1",
         "jquery": "^3.7.1",
         "lucide-static": "^0.331.0"
     }
