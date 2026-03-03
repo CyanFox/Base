@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Actions\QueryGate\HealthCheckAction;
-use App\Facades\PublicSettingsManager;
-use App\Facades\SettingsManager;
 use App\Models\PublicSetting;
 use App\Services\SpotlightService;
 use Illuminate\Support\Facades\Config;
@@ -21,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('spotlight', fn($app): SpotlightService => new SpotlightService());
+        $this->app->singleton('spotlight', fn ($app): SpotlightService => new SpotlightService());
     }
 
     public function boot(): void

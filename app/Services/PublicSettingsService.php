@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Exceptions\SettingNotFoundException;
 use App\Models\PublicSetting;
-use App\Models\Setting;
 use App\Traits\HandleSettingsValues;
 
 class PublicSettingsService

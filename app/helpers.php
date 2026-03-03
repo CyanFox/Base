@@ -122,6 +122,7 @@ if (!function_exists('addQueryGateModel')) {
                 Config::get('query-gate.models', []),
                 [$modelClass => $queryGateClass]
             ));
+
             return;
         }
 

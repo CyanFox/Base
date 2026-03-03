@@ -40,8 +40,8 @@ class PublicSetting extends Model
                 'key' => 'like',
             ])
             ->sorts(['key', 'created_at', 'updated_at'])
-            ->query(fn($query) => $query->where('auth', Auth::check()))
+            ->query(fn ($query) => $query->where('auth', Auth::check()))
             ->rateLimit(300)
-            ->actions(fn($actions) => $actions->detail());
+            ->actions(fn ($actions) => $actions->detail());
     }
 }

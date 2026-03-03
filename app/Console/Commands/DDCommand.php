@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Stolen from: https://github.com/spatie/laravel-artisan-dd
  * License: MIT

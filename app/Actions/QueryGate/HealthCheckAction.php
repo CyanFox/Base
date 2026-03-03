@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\QueryGate;
 
-use BehindSolution\LaravelQueryGate\Actions\AbstractQueryGateAction;
 use BehindSolution\LaravelQueryGate\Actions\AbstractStandaloneAction;
 use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Support\Facades\Event;

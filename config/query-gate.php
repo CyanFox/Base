@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'route' => [
         'prefix' => 'api/v1',
@@ -49,4 +51,3 @@ return [
     ],
 
 ];
-
