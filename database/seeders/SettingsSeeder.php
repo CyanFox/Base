@@ -21,6 +21,7 @@ class SettingsSeeder extends Seeder
             'internal.app.force_https' => config('settings.force_https'),
             'internal.app.notifications.alignment' => config('settings.notifications.alignment'),
             'internal.app.notifications.vertical_alignment' => config('settings.notifications.vertical_alignment'),
+            'internal.app.logo_path' => config('settings.logo_path'),
         ];
 
         $settings = [

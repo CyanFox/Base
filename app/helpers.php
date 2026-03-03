@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Facades\PublicSettingsManager;
 use App\Facades\SettingsManager;
 use App\Services\ModuleService;
+use App\Services\PublicSettingsService;
 use App\Services\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
@@ -24,10 +26,10 @@ if (!function_exists('publicSettings')) {
     function publicSettings($key = null, $default = null): mixed
     {
         if ($key === null) {
-            return new SettingsService;
+            return new PublicSettingsService;
         }
 
-        return SettingsManager::getSetting($key, $default);
+        return PublicSettingsManager::getSetting($key, $default);
     }
 }
 
@@ -60,7 +62,7 @@ if (!function_exists('formatDateTime')) {
             return Carbon::parse($date)->format($format);
         }
 
-        return Carbon::parse($date)->format(settings('internal.app.date_format', 'Y-m-d').' '.settings('internal.app.time_format', 'H:i'));
+        return Carbon::parse($date)->format(settings('internal.app.date_format', 'Y-m-d') . ' ' . settings('internal.app.time_format', 'H:i'));
     }
 }
 

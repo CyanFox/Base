@@ -1,0 +1,70 @@
+stages:
+  - static
+  - test
+  - style
+  - build
+
+default:
+  image: registry.git.cyanfox.de/realzone22/images/php-8.4
+
+phpstan:
+  stage: static
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "v2026"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - composer install --prefer-dist --no-interaction
+    - mkdir -p modules
+    - ./vendor/bin/phpstan --memory-limit=1G
+  timeout: 5m
+
+php_code_style:
+  stage: style
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "v2026"'
+      changes:
+        - "**/*.php"
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "**/*.php"
+  script:
+    - composer install
+    - ./vendor/bin/pint
+    - |
+      if [[ -n $(git status --porcelain) ]]; then
+        git config user.email "ci@gitlab"
+        git config user.name "GitLab CI"
+        git add .
+        git commit -m "Fix styling"
+        git push https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git HEAD:$CI_COMMIT_REF_NAME
+      fi
+  timeout: 5m
+
+test:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "v2026"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - composer update --prefer-dist --no-interaction
+    - cp .env.testing .env
+    - php artisan test
+
+docker_build:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "v2026"'
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  script:
+    - docker buildx create --use
+    - docker buildx build \
+      --platform linux/amd64,linux/arm64 \
+      --tag $CI_REGISTRY_IMAGE:latest \
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA \
+      --push .

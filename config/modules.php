@@ -31,22 +31,23 @@ return [
         'files' => [
             'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
-            'views/index' => 'resources/views/index.blade.php',
-            'views/master' => 'resources/views/layouts/master.blade.php',
+        //    'views/index' => 'resources/views/index.blade.php',
+        //    'views/master' => 'resources/views/layouts/master.blade.php',
             'scaffold/config' => 'config/config.php',
             'composer' => 'composer.json',
             'assets/js/app' => 'resources/assets/js/app.js',
             'assets/sass/app' => 'resources/assets/sass/app.scss',
             'vite' => 'vite.config.js',
             'package' => 'package.json',
+            'json' => 'module.json',
         ],
         'replacements' => [
             'routes/web' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME', 'MODULE_NAMESPACE', 'CONTROLLER_NAMESPACE'],
             'routes/api' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME', 'MODULE_NAMESPACE', 'CONTROLLER_NAMESPACE'],
             'vite' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME'],
             'json' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME', 'MODULE_NAMESPACE', 'PROVIDER_NAMESPACE'],
-            'views/index' => ['LOWER_NAME'],
-            'views/master' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME'],
+        //    'views/index' => ['LOWER_NAME'],
+        //    'views/master' => ['LOWER_NAME', 'STUDLY_NAME', 'KEBAB_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
             'composer' => [
                 'LOWER_NAME',
@@ -141,7 +142,7 @@ return [
             'traits' => ['path' => 'app/Traits', 'generate' => false],
 
             // app/Http/
-            'controller' => ['path' => 'app/Http/Controllers', 'generate' => true],
+            'controller' => ['path' => 'app/Http/Controllers', 'generate' => false],
             'filter' => ['path' => 'app/Http/Middleware', 'generate' => false],
             'request' => ['path' => 'app/Http/Requests', 'generate' => false],
 
@@ -157,7 +158,7 @@ return [
             'lang' => ['path' => 'lang', 'generate' => true],
 
             // resource/
-            'assets' => ['path' => 'resources/assets', 'generate' => false],
+            'assets' => ['path' => 'resources/assets', 'generate' => true],
             'component-view' => ['path' => 'resources/views/components', 'generate' => false],
             'views' => ['path' => 'resources/views', 'generate' => true],
 

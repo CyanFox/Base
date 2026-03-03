@@ -5,7 +5,7 @@ includes:
 parameters:
     paths:
         - app/
-    #    - modules/
+        - modules/
 
     level: 5
     checkModelProperties: true

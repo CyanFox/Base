@@ -1,4 +1,4 @@
 {
-    "base": "2025.10.1",
-    "dev": false
+    "base": "2026.3.0-dev",
+    "dev": true
 }
