@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Nwidart\Modules\Activators\FileActivator;
 use Nwidart\Modules\Providers\ConsoleServiceProvider;
 
@@ -35,8 +37,8 @@ return [
     |
     */
     'stubs' => [
-        'enabled' => false,
-        'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
+        'enabled' => true,
+        'path' => base_path('stubs/nwidart-stubs'),
         'files' => [
             'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
@@ -89,7 +91,7 @@ return [
                 'APP_FOLDER_NAME',
             ],
         ],
-        'gitkeep' => true,
+        'gitkeep' => false,
     ],
     'paths' => [
         /*

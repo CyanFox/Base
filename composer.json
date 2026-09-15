@@ -9,16 +9,25 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
+        "dcblogdev/laravel-module-generator": "^v2.0.7",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
-        "nwidart/laravel-modules": "^13.0"
+        "mhmiton/laravel-modules-livewire": "^7.0",
+        "nwidart/laravel-modules": "^13.0",
+        "realzone22/daisyblade": "^2026.09@RC",
+        "realzone22/larahooks": "^1.0",
+        "realzone22/laravel-query-gate": "^1.2",
+        "spatie/laravel-activitylog": "^5.1",
+        "spatie/laravel-medialibrary": "^11.23"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.7",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
-        "laravel/pint": "^1.27",
+        "laravel/pint": "^1.32",
         "laravel/sail": "^1.67",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
@@ -59,7 +68,9 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -70,7 +81,9 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "pre-package-uninstall": [
-            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ]
     },
     "extra": {
@@ -93,6 +106,6 @@
             "wikimedia/composer-merge-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "rc",
     "prefer-stable": true
 }

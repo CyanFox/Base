@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+declare(strict_types=1);
+
 use Tests\TestCase;
 
 /*
@@ -44,7 +45,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function something(): void
 {
     // ..
 }

@@ -1,3 +1,5 @@
 {
-    "Testing": true
+    "Testing": true,
+    "Core": true,
+    "Base": true
 }

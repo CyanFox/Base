@@ -1,0 +1,30 @@
+{
+    "name": "cyanfox/{module}",
+    "description": "",
+    "authors": [
+        {
+            "name": "CyanFox",
+            "email": "opensource@cyanfox.de"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\{Module}\\": "app/",
+            "Modules\\{Module}\\Database\\Factories\\": "database/factories/",
+            "Modules\\{Module}\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\{Module}\\Tests\\": "tests/"
+        }
+    }
+}
