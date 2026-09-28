@@ -11,13 +11,13 @@
     "require": {
         "php": "^8.4",
         "dcblogdev/laravel-module-generator": "^v2.0.7",
+        "dedoc/scramble": "^0.13.45",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
         "mhmiton/laravel-modules-livewire": "^7.0",
         "nwidart/laravel-modules": "^13.0",
         "realzone22/daisyblade": "^2026.09@RC",
         "realzone22/larahooks": "^1.0",
-        "realzone22/laravel-query-gate": "^1.2",
         "spatie/laravel-activitylog": "^5.1",
         "spatie/laravel-medialibrary": "^11.23"
     },
@@ -39,7 +39,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
