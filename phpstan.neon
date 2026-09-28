@@ -11,3 +11,4 @@ parameters:
     level: 5
     checkModelProperties: true
     treatPhpDocTypesAsCertain: false
+    noEnvCallsOutsideOfConfig: false
