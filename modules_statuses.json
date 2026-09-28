@@ -1,5 +1,6 @@
 {
     "Testing": true,
     "Core": true,
-    "Base": true
+    "Base": true,
+    "Auth": true
 }

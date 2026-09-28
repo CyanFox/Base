@@ -1,5 +1,13 @@
 @import 'tailwindcss';
+@import 'lucide-static/font/lucide.css';
+@import 'themes.css';
 
+@plugin 'daisyui';
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../modules/**/*.blade.php";
+@source "../../modules/**/*.js";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 

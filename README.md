@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-  <a href="https://git.cyanfox.de/CyanFox/Base">
+  <a href="public/img/Logo.svg">
     <img src="https://cyanfox.de/img/logo.svg" alt="Logo" width="100" height="100">
   </a>
 
