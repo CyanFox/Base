@@ -16,8 +16,9 @@
         "laravel/tinker": "^3.0",
         "mhmiton/laravel-modules-livewire": "^7.0",
         "nwidart/laravel-modules": "^13.0",
-        "realzone22/daisyblade": "^2026.09@RC",
         "realzone22/larahooks": "^1.0",
+        "realzone22/pengublade": "^1.3",
+        "realzone22/pengutables": "^1.3",
         "spatie/laravel-activitylog": "^5.1",
         "spatie/laravel-medialibrary": "^11.23"
     },
