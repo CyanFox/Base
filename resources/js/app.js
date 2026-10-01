@@ -17,3 +17,19 @@ Livewire.on('logger', (data) => {
         }
     }
 });
+
+Livewire.hook('request', ({fail}) => {
+    fail(({status, preventDefault, retry}) => {
+        if (status === 419) {
+            preventDefault();
+            fetch('/api/v1/refresh-csrf').then(r => r.json()).then(data => {
+                try {
+                    document.querySelector('meta[name="csrf-token"]').content = data.token;
+                    Livewire.csrfToken = data.token;
+                    retry();
+                } catch (e) {
+                }
+            });
+        }
+    });
+});
