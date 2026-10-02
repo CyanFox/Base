@@ -13,7 +13,7 @@
     ],
     "migration": {
         "seeds": [
-            "Modules\\{Module}\\Database\\Seeders\\DatabaseSeeder"
+            "Modules\\{Module}\\Database\\Seeders\\{Module}DatabaseSeeder"
         ]
     }
 }

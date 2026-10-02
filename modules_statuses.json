@@ -2,5 +2,7 @@
     "Testing": true,
     "Core": true,
     "Base": true,
-    "Auth": true
+    "Auth": true,
+    "Account": true,
+    "Dashboard": true
 }

@@ -1,6 +1,6 @@
 @props([
     'last' => false,
-    'separator' => '>',
+    'separator' => '<i class="icon-chevron-right"></i>',
     'tooltip' => null,
 ])
 
@@ -13,6 +13,6 @@
 @else
     <li class="flex items-center gap-1" @if($tooltip) x-data x-tooltip.raw="{{ $tooltip }}" @endif>
         <a {{ $attributes->twMerge('hover:text-on-surface-strong dark:hover:text-on-surface-dark-strong') }}>{{ $slot }}</a>
-        {{ $separator }}
+        {!! $separator !!}
     </li>
 @endif

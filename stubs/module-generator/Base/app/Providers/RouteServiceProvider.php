@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Modules\Base\Providers;
+namespace Modules\{Module}\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    protected string $name = 'Base';
+    protected string $name = '{Module}';
 
     /**
      * Called before routes are registered.
