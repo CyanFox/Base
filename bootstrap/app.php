@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
+        channels: __DIR__ . '/../routes/channels.php',
         api: base_path('routes/api.php'),
     )
     ->withMiddleware(function (Middleware $middleware): void {

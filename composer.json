@@ -13,6 +13,7 @@
         "dcblogdev/laravel-module-generator": "^v2.0.7",
         "dedoc/scramble": "^0.13.45",
         "laravel/framework": "^13.17",
+        "laravel/reverb": "^1.0",
         "laravel/tinker": "^3.0",
         "mhmiton/laravel-modules-livewire": "^7.0",
         "nwidart/laravel-modules": "^13.0",
