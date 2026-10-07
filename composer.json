@@ -15,6 +15,7 @@
         "laravel/framework": "^13.17",
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^3.0",
+        "livewire/livewire": "^4.0",
         "mhmiton/laravel-modules-livewire": "^7.0",
         "nwidart/laravel-modules": "^13.0",
         "realzone22/larahooks": "^1.0",

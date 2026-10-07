@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'lucide-static/font/lucide.css';
+@import 'bootstrap-icons/font/bootstrap-icons.min.css';
 @import 'tippy.js/dist/tippy.css';
 
 @source "../**/*.blade.php";
@@ -7,6 +8,7 @@
 @source "../../modules/**/*.blade.php";
 @source "../../modules/**/*.js";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/realzone22/**/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -59,4 +61,8 @@
     ::view-transition-new(*) {
         animation: none !important;
     }
+}
+
+[x-cloak] {
+    display: none !important;
 }

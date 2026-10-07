@@ -1,5 +1,9 @@
 import './echo';
 
+import Tooltip from "@ryangjchandler/alpine-tooltip";
+
+Alpine.plugin(Tooltip);
+
 Livewire.on('logger', (data) => {
     for (let i = 0; i < data.length; i++) {
         const {type, message} = data[i]
@@ -43,7 +47,7 @@ async function getTranslation(key, fallback) {
     const timeoutId = setTimeout(() => controller.abort(), 1000);
 
     try {
-        const response = await fetch(`/api/v1/lang/${encodeURIComponent(key)}`, {
+        const response = await fetch(`/api/v1/lang?key=${encodeURIComponent(key)}`, {
             signal: controller.signal,
             headers: {
                 'Accept': 'application/json'
