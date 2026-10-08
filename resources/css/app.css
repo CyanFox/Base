@@ -5,7 +5,7 @@
 
 @source "../**/*.blade.php";
 @source "../**/*.js";
-@source "../../modules/**/*.blade.php";
+@source "../../modules/**/*.php";
 @source "../../modules/**/*.js";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/realzone22/**/*.blade.php';
