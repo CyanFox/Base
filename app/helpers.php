@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\ModuleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
@@ -26,5 +27,12 @@ if (!function_exists('formatFileSize')) {
     function formatFileSize(int|float $bytes, int $precision = 0, ?int $maxPrecision = null): string
     {
         return Number::fileSize($bytes, $precision, $maxPrecision);
+    }
+}
+
+if (!function_exists('modules')) {
+    function modules()
+    {
+        return new ModuleService();
     }
 }

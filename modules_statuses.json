@@ -1,8 +1,8 @@
 {
-    "Testing": true,
     "Core": true,
     "Base": true,
     "Auth": true,
     "Account": true,
-    "Dashboard": true
+    "Dashboard": true,
+    "Admin": true
 }
