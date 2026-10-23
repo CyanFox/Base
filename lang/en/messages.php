@@ -26,6 +26,7 @@ return [
 
     'languages' => [
         'en' => 'English',
-        'de' => 'German'
+        'de' => 'German',
+        'de_sie' => 'German (Sie)',
     ],
 ];
