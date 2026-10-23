@@ -4,15 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
 use Dedoc\Scramble\Attributes\PathParameter;
 use Dedoc\Scramble\Attributes\Response;
 use Illuminate\Http\Request;
 
+#[Group('Language')]
 class LanguageController extends Controller
 {
-    #[Endpoint(
-        title: 'Get Language Key',
-    )]
+    #[Endpoint(title: 'Get Language Key')]
     #[PathParameter('key', 'Language Key')]
     #[PathParameter('lang', 'Language', required: false, default: 'en')]
     #[Response(200, 'Language Value', examples: ['application/json' => ['success' => true, 'message' => 'Language Value', 'data' => ['key' => 'language.key', 'value' => 'Language Value', 'lang' => 'en']]])]
