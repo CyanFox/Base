@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: base_path('/../routes/channels.php'),
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->group('api', ['throttle:100,1']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (Throwable $e, Request $request): ?JsonResponse {
