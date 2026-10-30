@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         api: base_path('routes/api.php'),
-        channels: base_path('/../routes/channels.php'),
+        channels: base_path('routes/channels.php'),
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //

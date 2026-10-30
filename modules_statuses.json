@@ -1,8 +1,0 @@
-{
-    "Core": true,
-    "Base": true,
-    "Auth": true,
-    "Account": true,
-    "Dashboard": true,
-    "Admin": true
-}

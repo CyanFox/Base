@@ -90,7 +90,7 @@ class ModuleService
         }
 
         if ($module->get('remote_version_url') !== null) {
-            return cache()->remember($module . '_remote_version_url', now()->addHour(), function () use ($module) {
+            return cache()->remember('base.modules.' . $module . '.remote_version', now()->addHour(), function () use ($module) {
                 $response = Http::get($module->get('remote_version_url'));
                 $response = json_decode($response->body(), true);
 

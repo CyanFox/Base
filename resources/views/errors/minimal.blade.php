@@ -5,7 +5,6 @@
     <meta name="robots" content="nofollow,noarchive,noindex">
     <title>@yield('code') &bull; @yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!--  -->
     <meta name="title" content="@yield('code'): @yield('title')">
     <meta name="description" content="@yield('title')">
     <meta property="og:title" content="@yield('code'): @yield('title')">
