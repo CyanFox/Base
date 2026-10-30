@@ -74,11 +74,12 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
+        "ide-helper": [
+            "@php -r \"if (class_exists('Barryvdh\\\\LaravelIdeHelper\\\\IdeHelperServiceProvider')) { foreach (['ide-helper:generate', 'ide-helper:meta', 'ide-helper:models -W -M -R'] as \\$command) { passthru(escapeshellarg(PHP_BINARY) . ' artisan ' . \\$command, \\$exitCode); if (\\$exitCode !== 0) { exit(\\$exitCode); } } }\""
+        ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta",
-            "@php artisan ide-helper:models -W -M -R"
+            "@ide-helper"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -90,8 +91,7 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
+            "@ide-helper"
         ]
     },
     "extra": {

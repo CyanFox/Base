@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: base_path('/../routes/channels.php'),
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->group('api', ['throttle:100,1']);
+        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (Throwable $e, Request $request): ?JsonResponse {
@@ -25,11 +26,13 @@ return Application::configure(basePath: dirname(__DIR__))
                     return apiResponse($e->getMessage(), $e->errors(), false, $e->status);
                 }
 
-                $statusCode = $e instanceof HttpExceptionInterface
-                    ? $e->getStatusCode()
-                    : 500;
+                $statusCode = match (true) {
+                    $e instanceof AuthenticationException => 401,
+                    $e instanceof HttpExceptionInterface => $e->getStatusCode(),
+                    default => 500,
+                };
 
-                return apiResponse($e->getMessage(), null, false, $statusCode);
+                return apiResponse($e->getMessage(), [], false, $statusCode);
             }
             return null;
         });
