@@ -16,6 +16,19 @@ if (!function_exists('apiResponse')) {
     }
 }
 
+if (!function_exists('apiError')) {
+    function apiError(string $type, ?string $translationKey = null, array $details = [])
+    {
+        return [
+            'error' => [
+                'type' => $type,
+                'translation_key' => $translationKey,
+                'details' => $details
+            ]
+        ];
+    }
+}
+
 if (!function_exists('carbon')) {
     function carbon($time = null, $tz = null): Carbon
     {
