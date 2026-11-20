@@ -417,7 +417,11 @@
 <main>
     <section class="info" aria-labelledby="error-title">
         <h1 id="error-title">@yield('title')</h1>
-        <p>@yield('message')</p>
+        @if ($exception->getMessage())
+            <p>{{ $exception->getMessage() }}</p>
+        @else
+            <p>@yield('message')</p>
+        @endif
     </section>
 
     <figure class="pic" aria-hidden="true">
