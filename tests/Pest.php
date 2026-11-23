@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Modules\Core\Models\User;
 use Tests\TestCase;
 
 /*
@@ -77,6 +78,9 @@ expect()->extend('toBeOne', function () {
  *
  * When permissions are given and the user model supports Spatie's
  * permission traits, the permissions are assigned as well.
+ *
+ * PHPStan needs to know what model is being used for the user. Defaulting to Core User
+ * @return User
  */
 function makeUser(array $attributes = [], array $permissions = []): Model
 {
