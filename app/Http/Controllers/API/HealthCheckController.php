@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -37,6 +39,6 @@ class HealthCheckController extends Controller
 
         $status = $exception ? 500 : 200;
 
-        return apiResponse($exception ? 'Health check failed' : 'Health check passed', success: !$exception, statusCode: $status);
+        return apiResponse($exception ? 'Health check failed' : 'Health check passed', success: ! $exception, statusCode: $status);
     }
 }
