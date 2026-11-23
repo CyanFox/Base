@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Services\ModuleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
 
-if (!function_exists('apiResponse')) {
+if (! function_exists('apiResponse')) {
     function apiResponse($message, $data = [], bool $success = true, int $statusCode = 200): JsonResponse
     {
         return response()->json([
@@ -16,34 +18,34 @@ if (!function_exists('apiResponse')) {
     }
 }
 
-if (!function_exists('apiError')) {
+if (! function_exists('apiError')) {
     function apiError(string $type, ?string $translationKey = null, array $details = [])
     {
         return [
             'error' => [
                 'type' => $type,
                 'translation_key' => $translationKey,
-                'details' => $details
-            ]
+                'details' => $details,
+            ],
         ];
     }
 }
 
-if (!function_exists('carbon')) {
+if (! function_exists('carbon')) {
     function carbon($time = null, $tz = null): Carbon
     {
         return new Carbon($time, $tz);
     }
 }
 
-if (!function_exists('formatFileSize')) {
+if (! function_exists('formatFileSize')) {
     function formatFileSize(int|float $bytes, int $precision = 0, ?int $maxPrecision = null): string
     {
         return Number::fileSize($bytes, $precision, $maxPrecision);
     }
 }
 
-if (!function_exists('modules')) {
+if (! function_exists('modules')) {
     function modules()
     {
         return new ModuleService();

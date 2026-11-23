@@ -34,7 +34,7 @@ pest()->extend(TestCase::class)
 |
 */
 
-$moduleDirectories = glob(dirname(__DIR__) . '/modules/*') ?: [];
+$moduleDirectories = glob(dirname(__DIR__).'/modules/*') ?: [];
 
 if ($moduleDirectories !== []) {
     pest()->extend(TestCase::class)
@@ -80,6 +80,7 @@ expect()->extend('toBeOne', function () {
  * permission traits, the permissions are assigned as well.
  *
  * PHPStan needs to know what model is being used for the user. Defaulting to Core User
+ *
  * @return User
  */
 function makeUser(array $attributes = [], array $permissions = []): Model
@@ -92,8 +93,8 @@ function makeUser(array $attributes = [], array $permissions = []): Model
     $user = $userModel::create(array_merge([
         'first_name' => 'John',
         'last_name' => 'Doe',
-        'username' => 'user' . $counter . '_' . Str::lower(Str::random(4)),
-        'email' => 'user' . $counter . '@example.com',
+        'username' => 'user'.$counter.'_'.Str::lower(Str::random(4)),
+        'email' => 'user'.$counter.'@example.com',
         'password' => 'Password123!',
     ], $attributes));
 

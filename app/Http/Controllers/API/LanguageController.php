@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -20,7 +22,7 @@ class LanguageController extends Controller
     {
         $request->validate([
             'key' => 'required|string',
-            'lang' => 'nullable|string'
+            'lang' => 'nullable|string',
         ]);
 
         $key = $request->query('key');

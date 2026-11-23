@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
                         $firstRule = array_key_first($failedRules[$field] ?? []);
                         $translationKey = $firstRule
-                            ? 'validation.' . strtolower($firstRule)
+                            ? 'validation.'.mb_strtolower($firstRule)
                             : (is_string($messages[0]) && Lang::has($messages[0]) ? $messages[0] : null);
 
                         $details[$field] = [
@@ -58,6 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 return apiResponse($e->getMessage(), apiError('app.unknown', details: ['message' => $e->getMessage()]), false, $statusCode);
             }
+
             return null;
         });
     })->create();

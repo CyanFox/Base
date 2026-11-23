@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\File;
@@ -30,7 +32,7 @@ class ModuleService
                 return false;
             }
 
-            if ($module->isEnabled() && !$this->checkRequirements($module->getName())) {
+            if ($module->isEnabled() && ! $this->checkRequirements($module->getName())) {
                 return false;
             }
         }
@@ -90,12 +92,12 @@ class ModuleService
         }
 
         if ($module->get('remote_version_url') !== null) {
-            return cache()->remember('base.modules.' . $module . '.remote_version', now()->addHour(), function () use ($module) {
+            return cache()->remember('base.modules.'.$module.'.remote_version', now()->addHour(), function () use ($module) {
                 $response = Http::get($module->get('remote_version_url'));
                 $response = json_decode($response->body(), true);
 
-                if (!isset($response['version'])) {
-                    return null;
+                if (! isset($response['version'])) {
+                    return;
                 }
 
                 return $response['version'];
@@ -138,7 +140,7 @@ class ModuleService
         $destinationPath = base_path('modules');
         $tempPath = storage_path('app/temp');
 
-        $tempFile = $tempPath . '/' . basename($url);
+        $tempFile = $tempPath.'/'.basename($url);
 
         File::ensureDirectoryExists($tempPath);
 
