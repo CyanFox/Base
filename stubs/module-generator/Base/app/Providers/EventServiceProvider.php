@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Base\Providers;
+namespace Modules\{Module}\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

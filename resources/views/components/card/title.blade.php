@@ -1,3 +1,11 @@
-<h2 {{ $attributes->mergeClass('card-title') }}>
+@props([
+    'divider' => true
+])
+
+<div {{ $attributes->twMerge('font-bold text-xl') }}>
     {{ $slot }}
-</h2>
+</div>
+
+@if($divider)
+    <x-divider/>
+@endif

@@ -1,46 +1,45 @@
 @props([
     'label' => null,
     'hint' => null,
+    'uuid' => null,
+    'icon' => null,
     'tooltip' => null,
     'showRequired' => true,
     'showValidation' => true,
     'placeholder' => null,
 ])
 
-@php($hasValidationErrors = $attributes->whereStartsWith('wire:model')->first() && $errors->has($attributes->whereStartsWith('wire:model')->first()) && $showValidation)
+<div x-data="{ uuid: '{{ $uuid }}' ? '{{ $uuid }}' : Math.random().toString(20).substring(2, 20) }">
+    <div class="relative flex w-full flex-col gap-1 text-on-surface dark:text-on-surface-dark">
+        @if($label)
+            <label x-bind:for="uuid" class="w-fit pl-0.5 text-sm">
+                {{ $label }}
 
-<fieldset {{ $attributes->mergeClassFor('fieldset', 'fieldset w-fit ' . ($tooltip ? 'tooltip' : '')) }}>
-    @if($tooltip)
-        <div {{ $attributes->mergeClassFor('tooltip', 'tooltip-content') }}>
-            {!! $tooltip !!}
-        </div>
-    @endif
-
-    @if($label)
-        <legend {{ $attributes->mergeClassFor('label', 'fieldset-legend') }}>
-            {{ $label }}
-
-            @if($attributes->get('required') && $showRequired)
-                <span class="text-error">*</span>
-            @endif
-        </legend>
-    @endif
-
-    <select {{ $attributes->mergeClass('select ' . ($hasValidationErrors ? 'select-error' : '')) }}>
-        @if($placeholder)
-            <option disabled selected value="">{{ $placeholder }}</option>
+                @if($attributes->get('required') && $showRequired)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
         @endif
-        {{ $slot }}
-    </select>
-
-    @if($hasValidationErrors)
-        <div
-            class="text-error text-sm">{{ $errors->first($attributes->whereStartsWith('wire:model')->first()) }}</div>
-    @endif
+        @if($icon)
+            <i class="{{ $icon }} absolute pointer-events-none right-2 top-2 size-5"></i>
+        @endif
+        <select x-bind:id="uuid" @if($tooltip) x-tooltip.raw="{{ $tooltip }}" @endif
+            {{ $attributes->twMerge('w-full cursor-pointer appearance-none rounded-radius border border-outline bg-surface-alt pr-5 pl-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark') }}>
+            @if($placeholder)
+                <option value="" class="text-muted" :disabled="$attributes.get('required') ? true : false"
+                        selected>{{ $placeholder }}</option>
+            @endif
+            {{ $slot }}
+        </select>
+    </div>
 
     @if($hint)
-        <p {{ $attributes->mergeClassFor('hint', 'label') }}>
+        <p class="text-on-surface/50 dark:text-on-surface-dark/50 text-xs mt-1">
             {{ $hint }}
         </p>
     @endif
-</fieldset>
+
+    @if($attributes->whereStartsWith('wire:model')->first() && $errors->has($attributes->whereStartsWith('wire:model')->first()) && $showValidation)
+        <div class="text-danger text-sm">{{ $errors->first($attributes->whereStartsWith('wire:model')->first()) }}</div>
+    @endif
+</div>
