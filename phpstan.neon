@@ -12,3 +12,41 @@ parameters:
     checkModelProperties: true
     treatPhpDocTypesAsCertain: false
     noEnvCallsOutsideOfConfig: false
+
+    scanFiles:
+        # Defines makeUser() and other helpers used by the Pest test files
+        - tests/Pest.php
+        # Provides the IdeHelper* classes referenced by @mixin in the Core models
+        - _ide_helper_models.php
+
+    ignoreErrors:
+        # Livewire v4 single-file components: the `new class` expression on a separate line
+        # is the component definition itself; Livewire's compiler turns it into a real class.
+        -
+            message: '#^Expression "new class extends .*" on a separate line does not do anything\.$#'
+            path: *resources/views/livewire/*
+        # Livewire injects a view() method into the compiled single-file component class.
+        -
+            message: '#^Call to an undefined method .+@anonymous/.+::view\(\)\.$#'
+            path: *resources/views/livewire/*
+        # Pest: inside it() closures $this is Pest\PendingCalls\TestCall, which proxies
+        # unknown methods to the test case via __call.
+        -
+            message: '#^Call to an undefined method Pest\\PendingCalls\\TestCall::.+$#'
+            path: *test.php
+        # Sanctum's NewAccessToken::accessToken is typed as the base Sanctum model, but the
+        # project's configured token model (Modules\Core\Models\PersonalAccessToken) is the
+        # actual instance and it documents the name property.
+        -
+            message: '#^Access to an undefined property Laravel\\Sanctum\\PersonalAccessToken::\$name\.$#'
+            path: *APIKeysController.php
+        # The spatie/laravel-passkeys Passkey model has no @property docblock, but the
+        # authenticatable_id column exists (see the package's create_passkeys_table migration).
+        -
+            message: '#^Access to an undefined property Spatie\\LaravelPasskeys\\Models\\Passkey::\$authenticatable_id\.$#'
+            path: *password-confirmation.php
+        # Blade @props are extracted into the view scope at render time; "notification"
+        # is a required component prop.
+        -
+            message: '#^Variable \$notification might not be defined\.$#'
+            path: *item.blade.php
