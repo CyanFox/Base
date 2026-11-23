@@ -22,8 +22,11 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - name: Install composer dependencies
-        uses: https://github.com/ramsey/composer-install@v3
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction
+
+      - name: List Installed Dependencies
+        run: composer show -D
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --error-format=github
