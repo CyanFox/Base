@@ -12,6 +12,9 @@ parameters:
     checkModelProperties: true
     treatPhpDocTypesAsCertain: false
     noEnvCallsOutsideOfConfig: false
+    # Ignore patterns are global (e.g. for the whole Livewire/Pest setup); partial runs
+    # (single files / changed files only) legitimately don't hit every pattern.
+    reportUnmatchedIgnoredErrors: false
 
     scanFiles:
         # Defines makeUser() and other helpers used by the Pest test files
