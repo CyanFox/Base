@@ -80,6 +80,7 @@ expect()->extend('toBeOne', function () {
  * permission traits, the permissions are assigned as well.
  *
  * PHPStan needs to know what model is being used for the user. Defaulting to Core User
+ *
  * @return User
  */
 function makeUser(array $attributes = [], array $permissions = []): Model
