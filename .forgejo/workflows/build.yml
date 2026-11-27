@@ -9,14 +9,31 @@ on:
 env:
   REGISTRY: git.cyanfox.de
   IMAGE: git.cyanfox.de/cyanfox/base
+  DOCKER_BUILDKIT: 1
 
 jobs:
   build:
     name: Build and publish
     runs-on: docker
+    container:
+      image: data.forgejo.org/oci/docker:cli
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - name: Install git
+        run: apk add --no-cache git
+
+      - name: Checkout
+        run: |
+          git clone \
+            "https://${{ secrets.REGISTRY_USER }}:${{ secrets.REGISTRY_TOKEN }}@$(echo "${GITHUB_SERVER_URL}" | sed 's|https://||')/${GITHUB_REPOSITORY}.git" \
+            .
+          case "${GITHUB_REF}" in
+            refs/tags/*) git checkout -f "${GITHUB_REF#refs/tags/}" ;;
+            *) git checkout -f "${GITHUB_SHA}" ;;
+          esac
+
+      - name: Verify Docker connection
+        run: docker info
 
       - name: Log in to the registry
         run: |
@@ -28,17 +45,20 @@ jobs:
       - name: Determine image tags
         id: tags
         run: |
-          TAGS="${IMAGE}:latest ${IMAGE}:sha-${GITHUB_SHA::7}"
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            VERSION="${GITHUB_REF#refs/tags/v}"
-            TAGS="${TAGS} ${IMAGE}:${VERSION} ${IMAGE}:${VERSION%.*}"
-          fi
-          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+          SHA_TAG=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          TAGS="${IMAGE}:latest ${IMAGE}:sha-${SHA_TAG}"
+          case "${GITHUB_REF}" in
+            refs/tags/v*)
+              VERSION="${GITHUB_REF#refs/tags/v}"
+              TAGS="${TAGS} ${IMAGE}:${VERSION} ${IMAGE}:${VERSION%.*}"
+              ;;
+          esac
+          echo "tags=${TAGS}" >> "${GITHUB_OUTPUT}"
 
       - name: Build image
         run: |
           docker build \
-            --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+            --label org.opencontainers.image.source="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
             $(for t in ${{ steps.tags.outputs.tags }}; do echo -n " -t $t"; done) \
             .
 
