@@ -1,0 +1,51 @@
+name: Build and Publish Image
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: git.cyanfox.de
+  IMAGE: git.cyanfox.de/cyanfox/base
+
+jobs:
+  build:
+    name: Build and publish
+    runs-on: docker
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to the registry
+        run: |
+          echo "${{ secrets.REGISTRY_TOKEN }}" | docker login \
+            ${{ env.REGISTRY }} \
+            --username "${{ secrets.REGISTRY_USER }}" \
+            --password-stdin
+
+      - name: Determine image tags
+        id: tags
+        run: |
+          TAGS="${IMAGE}:latest ${IMAGE}:sha-${GITHUB_SHA::7}"
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+            TAGS="${TAGS} ${IMAGE}:${VERSION} ${IMAGE}:${VERSION%.*}"
+          fi
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
+      - name: Build image
+        run: |
+          docker build \
+            --label org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+            $(for t in ${{ steps.tags.outputs.tags }}; do echo -n " -t $t"; done) \
+            .
+
+      - name: Push image
+        run: |
+          for t in ${{ steps.tags.outputs.tags }}; do docker push "$t"; done
+
+      - name: Log out
+        if: always()
+        run: docker logout ${{ env.REGISTRY }}
